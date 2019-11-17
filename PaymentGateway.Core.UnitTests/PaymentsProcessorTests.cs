@@ -1,13 +1,13 @@
 using System;
-
+using Microsoft.Extensions.Logging;
 using NUnit.Framework;
 using Moq;
 using FluentAssertions;
 using PaymentGateway.Core;
-using Microsoft.Extensions.Logging;
 using PaymentGateway.Core.Bank;
 using PaymentGateway.Core.Models;
 using PaymentGateway.Models;
+using PaymentGateway.DataLayer;
 
 namespace Core.UnitTests
 {
@@ -17,13 +17,15 @@ namespace Core.UnitTests
     {
         private PaymentsProcessor paymentProcessor;
         private ILogger<PaymentsProcessor> logger = new Mock<ILogger<PaymentsProcessor>>().Object;
+        private Mock<IPaymentsRepository> paymentsRepository;
         private Mock<IBankClient> bankClient;
 
         [SetUp]
         public void SetUp()
         {
+            paymentsRepository = new Mock<IPaymentsRepository>();
             bankClient = new Mock<IBankClient>();
-            paymentProcessor = new PaymentsProcessor(logger, bankClient.Object);
+            paymentProcessor = new PaymentsProcessor(logger, paymentsRepository.Object, bankClient.Object);
         }
 
         [Test]
@@ -65,6 +67,28 @@ namespace Core.UnitTests
             result.Error.Should().NotBeNullOrEmpty();
             result.PaymentId.Should().BeNull();
         }
-               
+
+
+        [Test]
+        public void GetPayment__when__record_not_exists__return_null()
+        {
+            paymentsRepository.Setup(r => r.Get(It.IsAny<string>())).Returns<Payment>(null);
+
+            // act
+            var payment = paymentProcessor.GetPayment("not exists");
+
+            payment.Should().BeNull();
+        }
+
+        [Test]
+        public void GetPayment__when__record_exists__return_PAyment()
+        {
+            paymentsRepository.Setup(r => r.Get(It.IsAny<string>())).Returns(new Payment());
+
+            // act
+            var payment = paymentProcessor.GetPayment("not exists");
+
+            payment.Should().NotBeNull();
+        }
     }
 }

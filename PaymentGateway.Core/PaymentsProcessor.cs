@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using PaymentGateway.Core.Bank;
 using PaymentGateway.Core.Models;
+using PaymentGateway.DataLayer;
 using PaymentGateway.Models;
 
 namespace PaymentGateway.Core
@@ -16,11 +17,13 @@ namespace PaymentGateway.Core
     public class PaymentsProcessor : IPaymentsProcessor
     {
         private ILogger<PaymentsProcessor> logger;
+        private IPaymentsRepository paymentsRepository;
         private IBankClient bankClient;
 
-        public PaymentsProcessor(ILogger<PaymentsProcessor> logger, IBankClient bankClient)
+        public PaymentsProcessor(ILogger<PaymentsProcessor> logger, IPaymentsRepository paymentsRepository, IBankClient bankClient)
         {
             this.logger = logger;
+            this.paymentsRepository = paymentsRepository;
             this.bankClient = bankClient;
         }
 
@@ -40,7 +43,7 @@ namespace PaymentGateway.Core
 
         public Payment GetPayment(string paymentId)
         {
-            throw new NotImplementedException();
+            return paymentsRepository.Get(paymentId);
         }
     }
 }
