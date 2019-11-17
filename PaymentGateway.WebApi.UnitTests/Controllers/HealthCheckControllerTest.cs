@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 
 using PaymentGateway.WebApi.Controllers;
 
-namespace WebApiUnitTests
+namespace PaymentGateway.WebApi.UnitTests.Controllers
 {
 
     [Category("Web API")]

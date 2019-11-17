@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 using NUnit.Framework;
 using Moq;
@@ -44,6 +44,7 @@ namespace Core.UnitTests
             result.IsSuccess.Should().BeTrue();
             result.Error.Should().BeNull();
             result.Payment.Should().NotBeNull();
+            result.Payment.Id.Should().Be(bankPayment.Id);
         }
 
         [Test]
