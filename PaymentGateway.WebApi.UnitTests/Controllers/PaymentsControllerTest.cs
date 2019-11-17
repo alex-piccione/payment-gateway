@@ -9,6 +9,8 @@ using Microsoft.Extensions.Logging;
 using PaymentGateway.Core;
 using PaymentGateway.WebApi.Models;
 using PaymentGateway.Core.Models;
+using Microsoft.AspNetCore.Mvc;
+using PaymentGateway.Models;
 
 namespace PaymentGateway.WebApi.UnitTests.Controllers
 {
@@ -73,6 +75,32 @@ namespace PaymentGateway.WebApi.UnitTests.Controllers
             var response = controller.Create(request)?.Value as CreatePaymentResponse;
 
             paymentsProcessor.Verify();
+        }
+
+
+        [Test]
+        public void GetPayment__when__Processor_fails__should__return_a_Error_Response()
+        {
+            string paymentId = Guid.NewGuid().ToString();
+            paymentsProcessor.Setup(p => p.GetPayment(It.IsAny<string>())).Throws<Exception>();
+
+            // act 
+            var response = controller.Get(paymentId);
+
+            response.Should().NotBeNull();
+            (response.Result as JsonResult).StatusCode.Should().Be(500);
+        }
+
+        [Test]
+        public void GetPayment__when__Payment_is_not_found__should__return_404()
+        {
+            paymentsProcessor.Setup(p => p.GetPayment(It.IsAny<string>())).Returns<Payment>(null);
+
+            // act 
+            var response = controller.Get("not exists");
+
+            response.Should().NotBeNull();
+            (response.Result as NotFoundResult).StatusCode.Should().Be(404);
         }
 
     }

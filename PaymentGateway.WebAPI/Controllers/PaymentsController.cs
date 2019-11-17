@@ -38,7 +38,25 @@ namespace PaymentGateway.WebApi.Controllers
                 return GeneralError();
             }
         }
-               
+
+        [HttpGet, Route("{paymewntId}")]
+        public ActionResult<PaymentResponse> Get(string paymentId)
+        {
+            logger.LogInformation("GetPayment");
+
+            try
+            {
+                var payment = paymentsProcessor.GetPayment(paymentId);
+
+                if (payment == null) return new NotFoundResult();
+                else throw new Exception("not implemented");
+            }
+            catch (Exception exc)
+            {
+                logger.LogError(exc, $"Failed to retrieve Payment. PaymentId: {paymentId}");
+                return GeneralError();
+            }
+        }
 
     }
 }
