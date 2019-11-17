@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <RootNamespace>PaymentGateway.WebAPI</RootNamespace>
+    <PackageId>PaymentGateway.WebAPI</PackageId>
+    <Authors>PaymentGateway.WebAPI</Authors>
+    <Product>PaymentGateway.WebAPI</Product>
+    <AssemblyName>PaymentGateway.WebAPI</AssemblyName>
+  </PropertyGroup>
+
+
+</Project>
