@@ -14,15 +14,15 @@ using Microsoft.AspNetCore.Http;
 
 namespace WebApiUnitTests
 {
-    
 
+    [Category("Web API")]
     public class HealthCheckControllerTest
     {
         private ILogger<HealthCheckController> logger = new Mock<ILogger<HealthCheckController>>().Object;
 
         
         [Test]
-        public void Check__should__retumrn_OK() 
+        public void Check__should__return_HTTP_StatusCode_OK() 
         {
             var controller = new HealthCheckController(logger);
 

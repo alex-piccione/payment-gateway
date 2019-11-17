@@ -35,10 +35,6 @@ namespace PaymentGateway.WebApi.Controllers
             catch (Exception exc)
             {                
                 logger.LogError(exc, $"Failed to create Payment. Request: {request.ToLog()}");
-                //return new StatusCodeResult(500) { 
-                
-                //}
-                //return new StatusCodeResult(500);
                 return GeneralError();
             }
         }
