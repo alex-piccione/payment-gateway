@@ -23,7 +23,7 @@ namespace PaymentGateway.WebApi.Models
         {
             return new PaymentCreationData {
                 CardNumber = CardNumber,
-                CardOwner = CardOwner,
+                CardHolder = CardOwner,
                 ExpiryYear = ExpiryYear,
                 ExpiryMonth = ExpiryMonth,
                 CCV = CCV,

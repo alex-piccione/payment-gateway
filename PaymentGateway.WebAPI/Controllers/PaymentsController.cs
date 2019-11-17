@@ -39,8 +39,8 @@ namespace PaymentGateway.WebApi.Controllers
             }
         }
 
-        [HttpGet, Route("{paymewntId}")]
-        public ActionResult<PaymentResponse> Get(string paymentId)
+        [HttpGet, Route("{paymentId}")]
+        public ActionResult<PaymentResponse> Get([FromRoute]string paymentId)
         {
             logger.LogInformation("GetPayment");
 

@@ -62,7 +62,7 @@ namespace PaymentGateway.WebApi.UnitTests.Controllers
                 .Callback<PaymentCreationData>(data =>
                 {
                     Assert.AreEqual(request.CardNumber, data.CardNumber);
-                    Assert.AreEqual(request.CardOwner, data.CardOwner);
+                    Assert.AreEqual(request.CardOwner, data.CardHolder);
                     Assert.AreEqual(request.CCV, data.CCV);
                     Assert.AreEqual(request.ExpiryYear, data.ExpiryYear);
                     Assert.AreEqual(request.ExpiryMonth, data.ExpiryMonth);
@@ -85,7 +85,7 @@ namespace PaymentGateway.WebApi.UnitTests.Controllers
             {
                 Id = Guid.NewGuid().ToString(),
                 CardNumber = "1234-5678-1234-4567",
-                CardOwner = "Owner",
+                CardHolder = "Owner",
                 ExecutionDate = DateTime.UtcNow,
             };
 
