@@ -28,7 +28,7 @@ namespace PaymentGateway.WebApi.Controllers
                 var result = paymentsProcessor.CreatePayment(paymentCreationData);
 
                 var response = new CreatePaymentResponse { 
-                    PaymentId = Guid.NewGuid().ToString()                    
+                    PaymentId = result.PaymentId
                 };
                 return response;
             }
@@ -38,6 +38,7 @@ namespace PaymentGateway.WebApi.Controllers
                 return GeneralError();
             }
         }
+               
 
     }
 }

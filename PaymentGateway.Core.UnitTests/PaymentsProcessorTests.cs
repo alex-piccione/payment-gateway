@@ -43,8 +43,7 @@ namespace Core.UnitTests
 
             result.IsSuccess.Should().BeTrue();
             result.Error.Should().BeNull();
-            result.Payment.Should().NotBeNull();
-            result.Payment.Id.Should().Be(bankPayment.Id);
+            result.PaymentId.Should().Be(bankPayment.Id);
         }
 
         [Test]
@@ -64,7 +63,7 @@ namespace Core.UnitTests
 
             result.IsSuccess.Should().BeFalse();
             result.Error.Should().NotBeNullOrEmpty();
-            result.Payment.Should().BeNull();
+            result.PaymentId.Should().BeNull();
         }
                
     }

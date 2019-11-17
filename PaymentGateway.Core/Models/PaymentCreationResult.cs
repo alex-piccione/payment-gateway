@@ -7,13 +7,13 @@ namespace PaymentGateway.Core.Models
     {
         public bool IsSuccess { get; set; }
         public string Error { get; set; }
-        public Payment Payment { get; set; }
+        public string PaymentId { get; set; }        
 
 
         public static PaymentCreationResult Success(Payment payment)
             => new PaymentCreationResult {
                 IsSuccess = true,
-                Payment = payment
+                PaymentId = payment.Id,
             };
 
         public static PaymentCreationResult Fail(string error)

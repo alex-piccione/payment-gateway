@@ -28,13 +28,19 @@ namespace PaymentGateway.WebApi.UnitTests.Controllers
         }
 
         [Test]
-        public void Create__should__return_PaymentResponse()
-        {
+        public void Create__when__Processor_returns_Success__should__return_Success_and_PaymentId()
+        {           
             var request = new CreatePaymentRequest();
-            var response = controller.Create(request)?.Value as CreatePaymentResponse;
+            string paymentId = Guid.NewGuid().ToString();
+            paymentsProcessor.Setup(p => p.CreatePayment(It.IsAny<PaymentCreationData>())).Returns(
+                new PaymentCreationResult { IsSuccess = true, PaymentId = paymentId }
+            );
 
+            // act
+            var response = controller.Create(request)?.Value as CreatePaymentResponse;
+            
             response.Should().NotBeNull();
-            response.PaymentId.Should().NotBeNullOrEmpty();            
+            response.PaymentId.Should().Be(paymentId);
         }
 
         [Test]
