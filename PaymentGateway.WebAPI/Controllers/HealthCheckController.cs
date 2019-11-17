@@ -18,7 +18,7 @@ namespace PaymentGateway.WebApi.Controllers
             logger.LogInformation("Check");
 
             if (Request.Headers["Accept"] == "application/json")
-                return new JsonResult(new { status = "ok" });
+                return new JsonResult(new { status = "ok" }) { StatusCode = 200 };
             else
                 return Ok("OK");
         }
