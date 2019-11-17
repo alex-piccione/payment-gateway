@@ -22,7 +22,13 @@ namespace PaymentGateway.WebApi.Models
         internal PaymentCreationData ToPaymentCreationData()
         {
             return new PaymentCreationData {
-            
+                CardNumber = CardNumber,
+                CardOwner = CardOwner,
+                ExpiryYear = ExpiryYear,
+                ExpiryMonth = ExpiryMonth,
+                CCV = CCV,
+                Amount = Amount,
+                Currency = Currency
             };
         }
     }
