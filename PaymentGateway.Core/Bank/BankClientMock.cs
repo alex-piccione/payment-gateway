@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using PaymentGateway.Core.Models;
 using PaymentGateway.Models;
 

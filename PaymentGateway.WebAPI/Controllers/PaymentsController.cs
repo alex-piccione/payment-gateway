@@ -49,7 +49,7 @@ namespace PaymentGateway.WebApi.Controllers
                 var payment = paymentsProcessor.GetPayment(paymentId);
 
                 if (payment == null) return new NotFoundResult();
-                else throw new Exception("not implemented");
+                else return PaymentResponse.FromPayment(payment);
             }
             catch (Exception exc)
             {

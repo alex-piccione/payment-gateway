@@ -79,6 +79,29 @@ namespace PaymentGateway.WebApi.UnitTests.Controllers
 
 
         [Test]
+        public void GetPayment__when__should__return_Success()
+        {
+            var payment = new Payment()
+            {
+                Id = Guid.NewGuid().ToString(),
+                CardNumber = "1234-5678-1234-4567",
+                CardOwner = "Owner",
+                ExecutionDate = DateTime.UtcNow,
+            };
+
+            paymentsProcessor.Setup(p => p.GetPayment(It.IsAny<string>())).Returns(payment);
+
+            // act 
+            var response = controller.Get(payment.Id);
+
+            response.Should().NotBeNull();
+            var paymentResponse = response.Value.As<PaymentResponse>();
+            paymentResponse.Id.Should().Be(payment.Id);
+            paymentResponse.CardNumber.Should().Be(payment.CardNumber);
+            paymentResponse.ExecutionDate.Should().BeSameDateAs(payment.ExecutionDate);
+        }
+
+        [Test]
         public void GetPayment__when__Processor_fails__should__return_a_Error_Response()
         {
             string paymentId = Guid.NewGuid().ToString();
