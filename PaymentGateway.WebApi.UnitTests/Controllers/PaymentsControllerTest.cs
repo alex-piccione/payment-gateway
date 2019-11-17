@@ -30,7 +30,7 @@ namespace PaymentGateway.WebApi.UnitTests.Controllers
         }
 
         [Test]
-        public void Create__when__Processor_returns_Success__should__return_Success_and_PaymentId()
+        public void Create__when__Processor_returns_Success__should__return_201_and_PaymentId()
         {           
             var request = new CreatePaymentRequest();
             string paymentId = Guid.NewGuid().ToString();
@@ -39,8 +39,10 @@ namespace PaymentGateway.WebApi.UnitTests.Controllers
             );
 
             // act
-            var response = controller.Create(request)?.Value as CreatePaymentResponse;
-            
+            var result = controller.Create(request)?.Result as CreatedResult;
+
+            result.StatusCode.Should().Be(201);
+            var response = result.Value as CreatePaymentResponse;
             response.Should().NotBeNull();
             response.PaymentId.Should().Be(paymentId);
         }

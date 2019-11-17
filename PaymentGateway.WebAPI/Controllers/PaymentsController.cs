@@ -30,7 +30,8 @@ namespace PaymentGateway.WebApi.Controllers
                 var response = new CreatePaymentResponse { 
                     PaymentId = result.PaymentId
                 };
-                return response;
+                //return Ok(response);
+                return Created($"payments/{result.PaymentId}", response);
             }
             catch (Exception exc)
             {                
