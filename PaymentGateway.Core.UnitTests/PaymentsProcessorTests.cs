@@ -49,6 +49,24 @@ namespace Core.UnitTests
         }
 
         [Test]
+        public void CreatePayment__when__BankClient_returns_a_Payment__should__save_to_repository()
+        {
+            var data = new PaymentCreationData();
+
+            var bankPayment = new Payment()
+            {
+                Id = Guid.NewGuid().ToString()
+            };
+
+            bankClient.Setup(c => c.CreatePayment(data)).Returns(bankPayment);
+            
+            // act
+            var result = paymentProcessor.CreatePayment(data);
+
+            paymentsRepository.Verify(r => r.Save(It.IsAny<Payment>()), Times.AtLeastOnce);
+        }
+
+        [Test]
         public void CreatePayment__when__BankClient_returns_an_error__should__return_Error_result()
         {
             var data = new PaymentCreationData();
@@ -70,7 +88,7 @@ namespace Core.UnitTests
 
 
         [Test]
-        public void GetPayment__when__record_not_exists__return_null()
+        public void GetPayment__when__record_not_exists__should__return_null()
         {
             paymentsRepository.Setup(r => r.Get(It.IsAny<string>())).Returns<Payment>(null);
 
@@ -81,7 +99,7 @@ namespace Core.UnitTests
         }
 
         [Test]
-        public void GetPayment__when__record_exists__return_PAyment()
+        public void GetPayment__when__record_exists__should__return_Payment()
         {
             paymentsRepository.Setup(r => r.Get(It.IsAny<string>())).Returns(new Payment());
 

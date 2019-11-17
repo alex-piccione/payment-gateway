@@ -32,11 +32,12 @@ namespace PaymentGateway.Core
             try
             {
                 var payment = bankClient.CreatePayment(data);
+                paymentsRepository.Save(payment);
                 return PaymentCreationResult.Success(payment);
             }
             catch (Exception exc)
             {
-                logger.LogError(exc, "Failed to create payment");
+                logger.LogError(exc, "Failed to process payment creation");
                 return PaymentCreationResult.Fail("General error on creating payment");
             }
         }
