@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using PaymentGateway.Core;
 using PaymentGateway.WebAPI.Models;
 
 namespace PaymentGateway.WebAPI.Controllers
@@ -8,10 +9,11 @@ namespace PaymentGateway.WebAPI.Controllers
     [ApiController, Route("payments")]
     public class PaymentsController : BaseController
     {
+        private IPaymentsProcessor paymentsProcessor;
 
-        public PaymentsController(ILogger<PaymentsController> logger) : base(logger)
+        public PaymentsController(ILogger<PaymentsController> logger, IPaymentsProcessor paymentsProcessor) : base(logger)
         {
-
+            this.paymentsProcessor = paymentsProcessor;
         }
 
 
@@ -22,6 +24,9 @@ namespace PaymentGateway.WebAPI.Controllers
 
             try
             {
+                var paymentCreationData = request.ToPaymentCreationData();
+                var result = paymentsProcessor.CreatePayment(paymentCreationData);
+
                 var response = new CreatePaymentResponse { 
                     PaymentId = Guid.NewGuid().ToString()                    
                 };
@@ -30,6 +35,10 @@ namespace PaymentGateway.WebAPI.Controllers
             catch (Exception exc)
             {                
                 logger.LogError(exc, $"Failed to create Payment. Request: {request.ToLog()}");
+                //return new StatusCodeResult(500) { 
+                
+                //}
+                //return new StatusCodeResult(500);
                 return GeneralError();
             }
         }

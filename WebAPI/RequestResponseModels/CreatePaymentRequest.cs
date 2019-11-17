@@ -1,3 +1,4 @@
+using PaymentGateway.Core.Models;
 using System;
 
 namespace PaymentGateway.WebAPI.Models
@@ -16,6 +17,13 @@ namespace PaymentGateway.WebAPI.Models
         {
             // avoid logging sensible data
             return $"[CardNumber:{CardNumber}, CardOwner:{CardOwner}, Amount:{Amount}, Currency:{Currency}]";
+        }
+
+        internal PaymentCreationData ToPaymentCreationData()
+        {
+            return new PaymentCreationData {
+            
+            };
         }
     }
 }
