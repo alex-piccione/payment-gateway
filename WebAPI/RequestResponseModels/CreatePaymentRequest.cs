@@ -1,7 +1,7 @@
 using PaymentGateway.Core.Models;
 using System;
 
-namespace PaymentGateway.WebAPI.Models
+namespace PaymentGateway.WebApi.Models
 {
     public class CreatePaymentRequest
     {        

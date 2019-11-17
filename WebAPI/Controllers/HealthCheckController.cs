@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace PaymentGateway.WebAPI.Controllers
+namespace PaymentGateway.WebApi.Controllers
 {
     [ApiController, Route("health")]
     public class HealthCheckController : BaseController

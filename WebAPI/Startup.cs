@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PaymentGateway.Core;
 
-namespace PaymentGateway.WebAPI
+namespace PaymentGateway.WebApi
 {
     public class Startup
     {

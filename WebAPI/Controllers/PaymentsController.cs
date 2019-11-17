@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PaymentGateway.Core;
-using PaymentGateway.WebAPI.Models;
+using PaymentGateway.WebApi.Models;
 
-namespace PaymentGateway.WebAPI.Controllers
+namespace PaymentGateway.WebApi.Controllers
 {
     [ApiController, Route("payments")]
     public class PaymentsController : BaseController

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Logging;
 
-namespace PaymentGateway.WebAPI.Controllers
+namespace PaymentGateway.WebApi.Controllers
 {
     public abstract class BaseController : ControllerBase
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace PaymentGateway.WebAPI.Models
+namespace PaymentGateway.WebApi.Models
 {
     public class CreatePaymentResponse
     {
