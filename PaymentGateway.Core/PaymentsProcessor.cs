@@ -1,7 +1,8 @@
-﻿using PaymentGateway.Core.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using Microsoft.Extensions.Logging;
+using PaymentGateway.Core.Bank;
+using PaymentGateway.Core.Models;
 
 namespace PaymentGateway.Core
 {
@@ -12,9 +13,27 @@ namespace PaymentGateway.Core
 
     public class PaymentsProcessor : IPaymentsProcessor
     {
+        private ILogger<PaymentsProcessor> logger;
+        private IBankClient bankClient;
+
+        public PaymentsProcessor(ILogger<PaymentsProcessor> logger, IBankClient bankClient)
+        {
+            this.logger = logger;
+            this.bankClient = bankClient;
+        }
+
         public PaymentCreationResult CreatePayment(PaymentCreationData data)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var payment = bankClient.CreatePayment(data);
+                return PaymentCreationResult.Success(payment);
+            }
+            catch (Exception exc)
+            {
+                logger.LogError(exc, "Failed to create payment");
+                return PaymentCreationResult.Fail("General error on creating payment");
+            }
         }
     }
 }

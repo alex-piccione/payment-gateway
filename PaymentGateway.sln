@@ -18,6 +18,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{0ECED931
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi.UnitTests", "PaymentGateway.WebApi.UnitTests\WebApi.UnitTests.csproj", "{429486F0-EE58-4441-8582-2FF6CD1F35CF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.UnitTests", "PaymentGateway.Core.UnitTests\Core.UnitTests.csproj", "{A8C36093-EBC4-4C2A-81A5-FF96BAF084D1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,12 +42,17 @@ Global
 		{429486F0-EE58-4441-8582-2FF6CD1F35CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{429486F0-EE58-4441-8582-2FF6CD1F35CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{429486F0-EE58-4441-8582-2FF6CD1F35CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8C36093-EBC4-4C2A-81A5-FF96BAF084D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8C36093-EBC4-4C2A-81A5-FF96BAF084D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8C36093-EBC4-4C2A-81A5-FF96BAF084D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8C36093-EBC4-4C2A-81A5-FF96BAF084D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{429486F0-EE58-4441-8582-2FF6CD1F35CF} = {0ECED931-2B8D-42DF-AEDF-FEE89EF9EDBE}
+		{A8C36093-EBC4-4C2A-81A5-FF96BAF084D1} = {0ECED931-2B8D-42DF-AEDF-FEE89EF9EDBE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7D090AEC-DB8D-472E-80E0-02142FEB56CC}

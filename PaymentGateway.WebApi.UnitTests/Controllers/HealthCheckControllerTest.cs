@@ -1,16 +1,13 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 
 using NUnit.Framework;
 using Moq;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
+
 using PaymentGateway.WebApi.Controllers;
-using Microsoft.AspNetCore.Mvc;
-using System.Net.Http;
-using Microsoft.AspNetCore.Http;
 
 namespace WebApiUnitTests
 {

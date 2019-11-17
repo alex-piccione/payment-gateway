@@ -1,7 +1,5 @@
-﻿using PaymentGateway.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
+using PaymentGateway.Models;
 
 namespace PaymentGateway.Core.Models
 {
