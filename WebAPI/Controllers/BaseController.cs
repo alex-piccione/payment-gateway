@@ -14,6 +14,6 @@ namespace PaymentGateway.WebAPI.Controllers
             this.logger = logger;
         }
 
-        internal BaseResponse GeneralError() => new BaseResponse { Error= "General error" };
+        internal ErrorResponse GeneralError() => new ErrorResponse("General error");
     }
 }
