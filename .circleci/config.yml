@@ -1,0 +1,34 @@
+version: 2.1
+
+jobs:
+  test:
+    docker: 
+      - image: ubuntu:latest
+    steps:
+      - run:
+          name: test
+          command: echo "this is a test"
+
+  build:
+    docker:
+      - image: ubuntu:latest
+    steps:
+      - run:
+          name: build start
+          command: echo "build job starts here"
+
+
+      - run:
+          name: build end
+          command: echo "build job ends here"
+    
+workflows:
+  version: 2
+  default_workflow:
+    jobs: 
+      - test:
+          filters:
+            branches:
+              only: circleci
+      - build
+
