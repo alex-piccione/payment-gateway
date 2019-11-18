@@ -6,7 +6,7 @@ namespace PaymentGateway.WebApi.Models
     public class CreatePaymentRequest
     {        
         public string CardNumber { get; set; }
-        public string CardOwner { get; set; }
+        public string CardHolder { get; set; }
         public int ExpiryYear { get; set; }
         public int ExpiryMonth { get; set; }
         public int CCV { get; set; }
@@ -16,14 +16,14 @@ namespace PaymentGateway.WebApi.Models
         public string ToLog()
         {
             // avoid logging sensible data
-            return $"[CardNumber:{CardNumber}, CardOwner:{CardOwner}, Amount:{Amount}, Currency:{Currency}]";
+            return $"[CardNumber:{CardNumber}, CardHolder:{CardHolder}, Amount:{Amount}, Currency:{Currency}]";
         }
 
         internal PaymentCreationData ToPaymentCreationData()
-        {
+        {   
             return new PaymentCreationData {
                 CardNumber = CardNumber,
-                CardHolder = CardOwner,
+                CardHolder = CardHolder,
                 ExpiryYear = ExpiryYear,
                 ExpiryMonth = ExpiryMonth,
                 CCV = CCV,

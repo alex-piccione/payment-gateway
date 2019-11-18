@@ -48,11 +48,11 @@ namespace PaymentGateway.WebApi.UnitTests.Controllers
         }
 
         [Test]
-        public void Create__should__call_PaymentsProcessor_with_right_data()
+        public void Create__should__call_PaymentsProcessor_with_correct_data()
         {
             var request = new CreatePaymentRequest {
                 CardNumber = "1234-4567-1234-4567",
-                CardOwner = "Owner",
+                CardHolder = "Owner",
                 CCV = 1234,
                 ExpiryYear = 2025,
                 ExpiryMonth = 1,
@@ -60,11 +60,12 @@ namespace PaymentGateway.WebApi.UnitTests.Controllers
                 Currency = "GBP"
             };            
 
-            paymentsProcessor.Setup(c => c.CreatePayment(It.IsAny<PaymentCreationData>()))
+            paymentsProcessor.Setup(p => p.CreatePayment(It.IsAny<PaymentCreationData>()))
                 .Callback<PaymentCreationData>(data =>
                 {
+                    Assert.IsNotNull(request.CardNumber, data.CardNumber);
                     Assert.AreEqual(request.CardNumber, data.CardNumber);
-                    Assert.AreEqual(request.CardOwner, data.CardHolder);
+                    Assert.AreEqual(request.CardHolder, data.CardHolder);
                     Assert.AreEqual(request.CCV, data.CCV);
                     Assert.AreEqual(request.ExpiryYear, data.ExpiryYear);
                     Assert.AreEqual(request.ExpiryMonth, data.ExpiryMonth);
@@ -77,6 +78,49 @@ namespace PaymentGateway.WebApi.UnitTests.Controllers
             var response = controller.Create(request)?.Value as CreatePaymentResponse;
 
             paymentsProcessor.Verify();
+        }
+
+
+        [Test]
+        public void Create__when__Processor_returns_Error__should__return_400_and_Error()
+        {
+            var request = new CreatePaymentRequest();
+            string paymentId = Guid.NewGuid().ToString();
+            paymentsProcessor.Setup(p => p.CreatePayment(It.IsAny<PaymentCreationData>())).Returns(
+                new PaymentCreationResult { IsSuccess = false, Error = "ERR 123" }
+            );
+
+            // act 
+            var result = controller.Create(request).Result;
+            result.Should().NotBeNull();
+            //var result = controller.Create(request)?.Result as BadRequestObjectResult;
+
+            result.As<BadRequestObjectResult>().StatusCode.Should().Be(400);
+            result.As<BadRequestObjectResult>().Value.Should().Be("ERR 123");
+        }
+
+
+        [Test]
+        public void Create__when__Processor_fails__should__return_a_Error_Response()
+        {
+            var request = new CreatePaymentRequest
+            {
+                CardNumber = "1234-4567-1234-4567",
+                CardHolder = "Owner",
+                CCV = 1234,
+                ExpiryYear = 2025,
+                ExpiryMonth = 1,
+                Amount = 1.23m,
+                Currency = "GBP"
+            };
+
+            paymentsProcessor.Setup(p => p.CreatePayment(It.IsAny<PaymentCreationData>())).Throws<Exception>();
+
+            // act 
+            var response = controller.Create(request);
+
+            response.Should().NotBeNull();
+            (response.Result as JsonResult).StatusCode.Should().Be(500);
         }
 
 

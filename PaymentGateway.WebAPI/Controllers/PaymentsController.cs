@@ -27,11 +27,21 @@ namespace PaymentGateway.WebApi.Controllers
                 var paymentCreationData = request.ToPaymentCreationData();
                 var result = paymentsProcessor.CreatePayment(paymentCreationData);
 
-                var response = new CreatePaymentResponse { 
-                    PaymentId = result.PaymentId
-                };
-                //return Ok(response);
-                return Created($"payments/{result.PaymentId}", response);
+                if (result.IsSuccess)
+                {
+                    var response = new CreatePaymentResponse
+                    {
+                        PaymentId = result.PaymentId
+                    };
+
+                    logger.LogInformation("[action=CreatePayment] SUCCESS");
+                    return Created($"payments/{result.PaymentId}", response);
+                }
+                else
+                {
+                    logger.LogError("[action=CreatePayment] FAILED - " + result.Error);
+                    return BadRequest(result.Error);
+                }
             }
             catch (Exception exc)
             {                

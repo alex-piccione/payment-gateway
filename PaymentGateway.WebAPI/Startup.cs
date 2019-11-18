@@ -8,6 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PaymentGateway.Core;
 using PaymentGateway.Core.Bank;
+using PaymentGateway.Core.Mocking;
+using PaymentGateway.DataLayer;
 
 namespace PaymentGateway.WebApi
 {
@@ -27,8 +29,9 @@ namespace PaymentGateway.WebApi
 
             services.AddSingleton<IPaymentsProcessor, PaymentsProcessor>();
 
-            string mockPaymentId = Configuration["Bank:Mock:PaymentId"];
-            services.AddSingleton<IBankClient>(new BankClientMock(mockPaymentId));           
+            // mocking
+            services.AddSingleton<IPaymentsRepository>(new PaymentsRepositoryMock());
+            services.AddSingleton<IBankClient>(new BankClientMock());           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,9 +44,10 @@ namespace PaymentGateway.WebApi
 
             if (env.IsEnvironment("Mock"))
             {
-                var bankClientMock = app.ApplicationServices.GetService<IBankClient>() as BankClientMock;
-                if (bankClientMock != null)
-                    bankClientMock.KnownPaymentId = Configuration["Bank:Mock:PaymentId"];
+                //var bankClientMock = app.ApplicationServices.GetService<IBankClient>() as BankClientMock;
+                var paymentsRepositoyMock = app.ApplicationServices.GetService<IPaymentsRepository>() as PaymentsRepositoryMock;
+                if (paymentsRepositoyMock != null)
+                    paymentsRepositoyMock.Capacity = int.Parse( Configuration["Mocking:RepositoryMaxSize"]);
             }
 
             app.UseHttpsRedirection();

@@ -4,6 +4,7 @@ namespace PaymentGateway.Core.Models
 {
     public class PaymentCreationData
     {
+        public string PaymentId { get; set; }
         public string CardNumber { get; set; }
         public string CardHolder { get; set; }
         public int ExpiryYear { get; set; }

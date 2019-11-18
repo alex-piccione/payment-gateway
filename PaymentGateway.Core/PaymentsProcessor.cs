@@ -30,9 +30,13 @@ namespace PaymentGateway.Core
         public PaymentCreationResult CreatePayment(PaymentCreationData data)
         {
             try
-            {
+            { 
+                // assign payment Id
+                data.PaymentId = Guid.NewGuid().ToString();
+
                 var payment = bankClient.CreatePayment(data);
                 paymentsRepository.Save(payment);
+
                 return PaymentCreationResult.Success(payment);
             }
             catch (Exception exc)

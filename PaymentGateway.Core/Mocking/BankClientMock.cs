@@ -1,23 +1,23 @@
 using System;
+using PaymentGateway.Core.Bank;
 using PaymentGateway.Core.Models;
 using PaymentGateway.Models;
 
-namespace PaymentGateway.Core.Bank
+namespace PaymentGateway.Core.Mocking
 {
     public class BankClientMock : IBankClient
     {
-        public string KnownPaymentId { get; set; }
 
-        public BankClientMock(string paymentId)
+        public BankClientMock()
         {
-            KnownPaymentId = paymentId;
+
         }
 
         public Payment CreatePayment(PaymentCreationData data)
         {
             return new Payment()
             {
-                Id = KnownPaymentId,
+                Id = data.PaymentId,
                 CardNumber = data.CardNumber,
                 CardHolder = data.CardHolder,
                 ExecutionDate = DateTime.UtcNow,
