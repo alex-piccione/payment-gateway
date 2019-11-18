@@ -1,3 +1,3 @@
 # Payment Gateway
 
-Payment Gateway solution to experiment with Core 3.0 and Docker
+Payment Gateway solution to experiment with .Net Core 3.0, NLog and Docker.  
