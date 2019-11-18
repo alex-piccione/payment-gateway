@@ -29,7 +29,7 @@ namespace PaymentGateway.Core.Mocking
 
         public void Save(Payment payment)
         {
-            if (inMemoryStore.Count > Capacity) throw new Exception($"Max capacity ({Capacity} records) of in memory storage reached.");
+            if (inMemoryStore.Count >= Capacity) throw new Exception($"Max capacity of in memory storage reached ({Capacity} records).");
 
             if (inMemoryStore.ContainsKey(payment.Id))
                 inMemoryStore[payment.Id] = payment;

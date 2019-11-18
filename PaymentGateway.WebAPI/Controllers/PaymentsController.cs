@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PaymentGateway.Core;
+using PaymentGateway.WebApi.Metrics;
 using PaymentGateway.WebApi.Models;
 
 namespace PaymentGateway.WebApi.Controllers
@@ -22,10 +24,12 @@ namespace PaymentGateway.WebApi.Controllers
         {
             logger.LogInformation("CreatePaymentRequest");
 
+            var timer = Stopwatch.StartNew();
+
             try
             {
                 var paymentCreationData = request.ToPaymentCreationData();
-                var result = paymentsProcessor.CreatePayment(paymentCreationData);
+                var result = paymentsProcessor.CreatePayment(paymentCreationData);                               
 
                 if (result.IsSuccess)
                 {
@@ -34,18 +38,26 @@ namespace PaymentGateway.WebApi.Controllers
                         PaymentId = result.PaymentId
                     };
 
-                    logger.LogInformation("[action=CreatePayment] SUCCESS");
+                    var elapsed = timer.ElapsedMilliseconds; timer.Stop();
+
+                    logger.LogInformation($"[action=CreatePayment] SUCCESS - [elapsed={elapsed}]");
+                    MetricsDataCollector.IncreaseCreatedPayments();
+                    MetricsDataCollector.LastPaymentCreationTime = elapsed;
                     return Created($"payments/{result.PaymentId}", response);
                 }
                 else
                 {
-                    logger.LogError("[action=CreatePayment] FAILED - " + result.Error);
+                    var elapsed = timer.ElapsedMilliseconds; timer.Stop();
+                    logger.LogError($"[action=CreatePayment] FAILED - [elapsed={elapsed}] " + result.Error);
+                    MetricsDataCollector.IncreaseFailedPayments();
+                    MetricsDataCollector.IncreaseErrors();
                     return BadRequest(result.Error);
                 }
             }
             catch (Exception exc)
             {                
                 logger.LogError(exc, $"Failed to create Payment. Request: {request.ToLog()}");
+                MetricsDataCollector.IncreaseErrors();
                 return GeneralError();
             }
         }
@@ -65,6 +77,7 @@ namespace PaymentGateway.WebApi.Controllers
             catch (Exception exc)
             {
                 logger.LogError(exc, $"Failed to retrieve Payment. PaymentId: {paymentId}");
+                MetricsDataCollector.IncreaseErrors();
                 return GeneralError();
             }
         }

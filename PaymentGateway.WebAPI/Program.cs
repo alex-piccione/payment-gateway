@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NLog.Web;
+using PaymentGateway.WebApi.Metrics;
 
 namespace PaymentGateway.WebApi
 {
@@ -15,6 +16,7 @@ namespace PaymentGateway.WebApi
             try
             {
                 logger.Info("Application start");
+                MetricsDataCollector.Initialize();
                 CreateHostBuilder(args).Build().Run();
             }
             catch (Exception exception)

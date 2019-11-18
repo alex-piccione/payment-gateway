@@ -7,7 +7,7 @@ namespace PaymentGateway.WebApi.Controllers
 {
     public abstract class BaseController : ControllerBase
     {
-        protected ILogger logger;
+        protected ILogger logger;        
 
         public BaseController(ILogger logger)
         {
