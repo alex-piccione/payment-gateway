@@ -1,42 +1,18 @@
 version: 2.1
 
 jobs:
-  
-  run tests:
-    docker:
-      - image: mcr.microsoft.com/dotnet/core/sdk:3.0 
-    steps:
-      - run:
-          command: echo "run tests"
-      - checkout
-      - run: 
-          name: "command: dir"
-          command: echo dir
-      - run:
-          name: dotnet test -c Release -t
-          command: dotnet test 
-
-
   build:
     docker:
       - image: mcr.microsoft.com/dotnet/core/sdk:3.0 
-    steps:
-      - run:
-          name: build start
-          command: echo "build job starts here"
+    environment:
+      #TAG: 0.1.${CIRCLE_BUILD_NUM} # does not work
+      TAG: 0.1
+    steps:      
+      - run: echo $TAG.${CIRCLE_BUILD_NUM}
       - checkout
       - run:
-          name: "dotnet publish"
-          command: dotnet publish -c Release -o published
+          name: Run Tests
+          command: dotnet test -c Release
       - run:
-          name: build end
-          command: echo "build job ends here"
-    
-workflows:
-  version: 2
-  default_workflow:
-    jobs: 
-      - run tests
-      - build:
-          requires:
-            - run tests
+          name: Dotnet publish
+          command: dotnet publish --no-build -c Release -o published
