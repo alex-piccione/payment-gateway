@@ -1,0 +1,42 @@
+version: 2.1
+
+jobs:
+  
+  run tests:
+    docker:
+      - image: mcr.microsoft.com/dotnet/core/sdk:3.0 
+    steps:
+      - run:
+          command: echo "run tests"
+      - checkout
+      - run: 
+          name: "command: dir"
+          command: echo dir
+      - run:
+          name: dotnet test -c Release -t
+          command: dotnet test 
+
+
+  build:
+    docker:
+      - image: mcr.microsoft.com/dotnet/core/sdk:3.0 
+    steps:
+      - run:
+          name: build start
+          command: echo "build job starts here"
+      - checkout
+      - run:
+          name: "dotnet publish"
+          command: dotnet publish -c Release -o published
+      - run:
+          name: build end
+          command: echo "build job ends here"
+    
+workflows:
+  version: 2
+  default_workflow:
+    jobs: 
+      - run tests
+      - build:
+          requires:
+            - run tests
