@@ -6,7 +6,7 @@ jobs:
       - image: mcr.microsoft.com/dotnet/core/sdk:3.0 
     environment:
       #TAG: 0.1.${CIRCLE_BUILD_NUM} # does not work
-      TAG: 0.1 # does not work
+      TAG: 0.1
     steps:      
       - run: echo $TAG.${CIRCLE_BUILD_NUM}
       - checkout
