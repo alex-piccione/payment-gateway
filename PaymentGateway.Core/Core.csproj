@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PaymentGateway.DataLayer\DataLayer.csproj" />
+    <ProjectReference Include="..\PaymentGateway.DataAccess\DataAccess.csproj" />
     <ProjectReference Include="..\PaymentGateway.Models\Models.csproj" />
   </ItemGroup>
 

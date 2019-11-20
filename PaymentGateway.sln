@@ -20,7 +20,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi.UnitTests", "Payment
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.UnitTests", "PaymentGateway.Core.UnitTests\Core.UnitTests.csproj", "{A8C36093-EBC4-4C2A-81A5-FF96BAF084D1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataLayer", "PaymentGateway.DataLayer\DataLayer.csproj", "{DFFD48F2-1A32-4C6F-9D9C-134770350F83}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "PaymentGateway.DataAccess\DataAccess.csproj", "{DFFD48F2-1A32-4C6F-9D9C-134770350F83}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CircleCI", "CircleCI", "{A69FF6B7-62D8-416F-A702-6955CCD8124D}"
 	ProjectSection(SolutionItems) = preProject

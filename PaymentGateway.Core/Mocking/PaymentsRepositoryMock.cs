@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using PaymentGateway.DataLayer;
+using PaymentGateway.DataAccess;
 using PaymentGateway.Models;
 
 namespace PaymentGateway.Core.Mocking

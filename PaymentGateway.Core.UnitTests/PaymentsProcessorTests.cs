@@ -7,7 +7,7 @@ using PaymentGateway.Core;
 using PaymentGateway.Core.Bank;
 using PaymentGateway.Core.Models;
 using PaymentGateway.Models;
-using PaymentGateway.DataLayer;
+using PaymentGateway.DataAccess;
 
 namespace Core.UnitTests
 {

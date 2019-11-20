@@ -9,7 +9,7 @@ using Microsoft.Extensions.Hosting;
 using PaymentGateway.Core;
 using PaymentGateway.Core.Bank;
 using PaymentGateway.Core.Mocking;
-using PaymentGateway.DataLayer;
+using PaymentGateway.DataAccess;
 
 namespace PaymentGateway.WebApi
 {

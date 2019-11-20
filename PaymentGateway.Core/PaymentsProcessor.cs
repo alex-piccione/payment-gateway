@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using PaymentGateway.Core.Bank;
 using PaymentGateway.Core.Models;
-using PaymentGateway.DataLayer;
+using PaymentGateway.DataAccess;
 using PaymentGateway.Models;
 
 namespace PaymentGateway.Core
