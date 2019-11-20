@@ -24,7 +24,7 @@ namespace PaymentGateway.Core.Mocking
 
         public Payment Get(string paymentId)
         {
-            return inMemoryStore[paymentId];
+            return inMemoryStore.TryGetValue(paymentId, out Payment payment) ? payment : null;
         }
 
         public void Save(Payment payment)
