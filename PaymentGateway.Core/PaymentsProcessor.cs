@@ -31,11 +31,14 @@ namespace PaymentGateway.Core
         {
             try
             { 
-                // assign payment Id
+                // generate the Payment Id
                 data.PaymentId = Guid.NewGuid().ToString();
 
                 var payment = bankClient.CreatePayment(data);
                 paymentsRepository.Save(payment);
+
+                // A validation error should return a Fail result
+                //return PaymentCreationResult.Fail("Not enough funds");
 
                 return PaymentCreationResult.Success(payment);
             }

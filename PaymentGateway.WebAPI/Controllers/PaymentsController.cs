@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -71,7 +71,7 @@ namespace PaymentGateway.WebApi.Controllers
             {
                 var payment = paymentsProcessor.GetPayment(paymentId);
 
-                if (payment == null) return new NotFoundResult();
+                if (payment == null) return new NotFoundObjectResult(null);
                 else return PaymentResponse.FromPayment(payment);
             }
             catch (Exception exc)

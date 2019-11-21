@@ -169,7 +169,7 @@ namespace PaymentGateway.WebApi.UnitTests.Controllers
             var response = controller.Get("not exists");
 
             response.Should().NotBeNull();
-            (response.Result as NotFoundResult).StatusCode.Should().Be(404);
+            (response.Result as NotFoundObjectResult).StatusCode.Should().Be(404);
         }
 
     }
