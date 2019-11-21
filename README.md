@@ -161,3 +161,10 @@ Returns some values indicating the status and usage of the service.
     "lastPaymentCreationTime": 0
 }
 ```
+
+
+--- 
+
+## Known issues
+
+NLog seems not writing the logs properly in the Docker container (it's ok locally). Need to be investigated.
