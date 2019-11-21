@@ -7,7 +7,7 @@ Payment Gateway solution to experiment with .Net Core 3.0, NLog, CircleCI and Do
 [![CircleCI](https://circleci.com/gh/alex75it/payment-gateway.svg?style=svg)](https://circleci.com/gh/alex75it/payment-gateway)
 
 
-## Docker image
+## Web API Docker image
 
 Every commit that pass the unit tests generates a new docker image that will be published on a public Docker repository.  
 
@@ -22,9 +22,9 @@ or
 
 ## Mocking
 
-The current service use a mocked acquiring Bank client and storage.  
+The current API uses a mocked Bank client and a mocked storage.  
 The Payments are always accepted (no validation) and stored in memory, 
-so the returned Payment ID can be used to query the service.
+so that the returned _Payment ID_ can be used to query the service.
 
 
 ---
@@ -33,7 +33,7 @@ so the returned Payment ID can be used to query the service.
 
 Any endpoint can return an ERROR (HTTP Status: _500_).  
 
-Sample payload below:
+Common JSON payload for error response below:
 ```json
 {
     "status": "error",
@@ -77,7 +77,7 @@ Example:
 
 **Responses:**
 
-#### Succes/Created
+#### Succes (Created)
 HTTP Status: _201_  
 Content-Type: _application/json_  
 ```json
@@ -88,15 +88,14 @@ Content-Type: _application/json_
 
 #### Validation error or unprocessable payment
 HTTP Status: _400_  
-Content-Type: _text/plain_  
 
-Example:   
+Content-Type: _text/plain_  
 _Payment amount cannot be zero or negative_
 
 
 ### - Retrieve an executed payment
 ```
-GET /payments/<payment-id>
+GET /payments/<paymentId>
 ```
 
 **Responses:**  
@@ -109,7 +108,7 @@ Content-Type: _application/json
 {
     "id": "0b389436-7acc-40ab-a009-49d1bdc5ff62",
     "executionDate": "2019-09-20T21:24:17.6330953Z",
-    "cardNumber": "XXXX-XXXX-XXXX-XXXX",
+    "cardNumber": "XXXX-XXXX-XXXX-1234",
     "amount": 100.23,
     "currency": "EUR"
 }
@@ -167,4 +166,5 @@ Returns some values indicating the status and usage of the service.
 
 ## Known issues
 
-NLog seems not writing the logs properly in the Docker container (it's ok locally). Need to be investigated.
+NLog seems not writing the logs properly in the Docker container (it's ok on local machine).  
+Need to be investigated.
