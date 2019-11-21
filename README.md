@@ -9,20 +9,29 @@ Payment Gateway solution to experiment with .Net Core 3.0, NLog, CircleCI and Do
 
 ## Docker image
 
-The commit generate a new docker image that will be published on my public Docker repository.  
+Every commit that pass the unit tests generates a new docker image that will be published on a public Docker repository.  
 
 To run and test the Docker image locally:  
-``docker run -d -p 8080:80 --name payment alessandropiccione/payment-gateway:0.1.92``
+``docker run -d -p 8080:80 --name payment alessandropiccione/payment-gateway:0.1.100``
 
 ``curl http://localhost:8080/health``  
 or  
 ``curl http://localhost:8080/metrics``
 
+---
+
+## Mocking
+
+The current service use a mocked acquiring Bank client and storage.  
+The Payments are always accepted (no validation) and stored in memory, 
+so the returned Payment ID can be used to query the service.
 
 
-## API documentation
+---
 
-Any endpoint can return an ERROR, HTTP Status: 500.  
+## Web API documentation
+
+Any endpoint can return an ERROR (HTTP Status: _500_).  
 
 Sample payload below:
 ```json
@@ -32,7 +41,7 @@ Sample payload below:
 }
 ```
 
-### Process a payment
+### - Process a payment
 ```
 POST /payments  
 ```
@@ -42,41 +51,61 @@ Content-Type: _application/json_
 
 **Parameters in the body:**
 
-Name         | Type   | Mandatory | Description/Example
------------- | ------ | --------- | ------------
-CardNumber   | String | Yes       | "1234-1234-1234-1234"
-CardHolder   | String | Yes       | "mr John Do"
-ExpiryYear   | Number | Yes       | 2025
-ExpiryMonth  | Number | Yes       | 5
-CCV          | Number | Yes       | 1234
-Amount       | Number | Yes       | 100.23
-Currency     | String | Yes       | "GBP"
+Name         | Type   | Mandatory 
+------------ | ------ | --------- 
+CardNumber   | String | Yes       
+CardHolder   | String | Yes       
+ExpiryYear   | Number | Yes       
+ExpiryMonth  | Number | Yes       
+CCV          | Number | Yes       
+Amount       | Number | Yes       
+Currency     | String | Yes       
+
+Example:  
+```json
+{
+    "CardNumber": "1234-1234-1234-1234",
+    "CardHolder": "mr John Do",
+    "ExpiryYear": 2025,
+    "ExpiryMonth": 5,
+    "CCV": 1234,
+    "Amount": 100.23,
+    "Currency": "EUR"
+}
+
+```
 
 **Responses:**
 
 #### Succes/Created
-HTTP Status: _201_
-```javascript
+HTTP Status: _201_  
+Content-Type: _application/json_  
+```json
 {
     "paymentId": "0b389436-7acc-40ab-a009-49d1bdc5ff62"
 }
 ```
 
+#### Validation error or unprocessable payment
+HTTP Status: _400_  
+Content-Type: _text/plain_  
 
-HTTP Status: _400_
+Example:   
+_Payment amount cannot be zero or negative_
 
 
-
-### Retrieve an executed payment
+### - Retrieve an executed payment
 ```
 GET /payments/<payment-id>
 ```
 
 **Responses:**  
 
+#### Success  
 HTTP Status: _200_  
 
-```javascript
+Content-Type: _application/json
+```json
 {
     "id": "0b389436-7acc-40ab-a009-49d1bdc5ff62",
     "executionDate": "2019-09-20T21:24:17.6330953Z",
@@ -84,4 +113,51 @@ HTTP Status: _200_
     "amount": 100.23,
     "currency": "EUR"
 }
+```
 
+
+#### Not Found
+HTTP Status: _404_  
+
+No content.  
+
+
+### - Status Check
+```
+GET /health
+```
+
+Both text and JSON requests are accepted.  
+
+Response body for Content-Type=_text/html_:  
+```
+OK
+```
+
+Response body for Content-Type=_application/json_:  
+```json
+{
+    "status": "ok"
+}
+```
+
+
+### - Service diagnostics
+```
+GET /metrics
+```
+
+Returns some values indicating the status and usage of the service.  
+
+
+
+**Response:**  
+```json
+{
+    "upSince": "2019-09-20T21:50:29.2284655Z",
+    "totalErrors": 1,
+    "createdPayments": 6,
+    "failedPayments": 1,
+    "lastPaymentCreationTime": 0
+}
+```
