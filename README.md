@@ -166,5 +166,5 @@ Returns some values indicating the status and usage of the service.
 
 ## Known issues
 
-NLog seems not writing the logs properly in the Docker container (it's ok on local machine).  
+NLog seems to not writing the logs properly in the Docker container (it's fine on local machine).  
 Need to be investigated.
